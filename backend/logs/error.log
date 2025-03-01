@@ -1,0 +1,4 @@
+[2025-03-01T11:11:40.465Z] [ERROR] POST /api/v1/projects/07a8db18-6848-4e9a-a9bb-3149131f35c7/upload 500 - 16ms
+[2025-03-01T11:12:41.581Z] [ERROR] POST /api/v1/projects/07a8db18-6848-4e9a-a9bb-3149131f35c7/upload 500 - 5ms
+[2025-03-01T11:13:27.348Z] [ERROR] POST /api/v1/projects/07a8db18-6848-4e9a-a9bb-3149131f35c7/upload 500 - 3ms
+[2025-03-01T11:16:04.688Z] [ERROR] POST /api/v1/projects/07a8db18-6848-4e9a-a9bb-3149131f35c7/upload 500 - 14ms
