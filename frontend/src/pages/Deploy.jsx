@@ -53,7 +53,7 @@ export default function Deploy() {
     try {
       // First create the project
       const projectData = {
-        name: formData.name,
+        title: formData.name,
         description: formData.description,
         framework: formData.framework,
         modelType: formData.modelType,

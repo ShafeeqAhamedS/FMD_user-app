@@ -137,6 +137,10 @@ const options = {
               enum: ['draft', 'published', 'archived', 'deployed', 'processing', 'failed'],
               description: 'Project status'
             },
+            deployedIP: {
+              type: 'string',
+              description: 'Deployed IP address'
+            },
             createdAt: {
               type: 'string',
               format: 'date-time',

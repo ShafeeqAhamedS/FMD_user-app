@@ -43,7 +43,6 @@ const Upload = () => {
       const zipBlob = await zip.generateAsync({ type: 'blob' });
       const formData = new FormData();
       formData.append('projectZip', zipBlob, 'project.zip');
-
       const response = await axios.post(`http://localhost:5000/api/v1/projects/${projectId}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -51,6 +50,8 @@ const Upload = () => {
         },
       });
       setMessage('Files uploaded successfully!');
+      localStorage.setItem('projectId', projectId);
+      window.location.href = '/deploying_page'; // Redirect to the new page after upload
     } catch (error) {
       setMessage('Error uploading files.');
     }
@@ -77,7 +78,7 @@ const Upload = () => {
           />
           <FileUpload
             label="Model Weights"
-            accept=".pt,.pth,.h5,.pkl,.bin"
+            accept=".pt,.pth,.h5,.pkl,.bin,.pickle"
             file={files.model}
             onChange={(file) => handleFileChange('model', file)}
             description="Trained model weights file"

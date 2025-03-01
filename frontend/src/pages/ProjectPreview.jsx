@@ -116,9 +116,9 @@ export default function ProjectPreview() {
             </button>
           )}
           
-          {selectedProject.deployedUrl && (
+          {selectedProject.deployedIP && (
             <a
-              href={selectedProject.deployedUrl}
+              href={"http://"+selectedProject.deployedIP}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-2 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
@@ -179,6 +179,14 @@ export default function ProjectPreview() {
                 </span>
               ))}
             </div>
+          </div>
+        )}
+
+        {selectedProject.deployedIP && (
+          <div className="mt-4">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Deployed IP:</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{selectedProject.deployedIP}</p>
+            <iframe src={`http://${selectedProject.deployedIP}`} className="w-full h-64 mt-2 border rounded" title="Deployed Project"></iframe>
           </div>
         )}
       </div>

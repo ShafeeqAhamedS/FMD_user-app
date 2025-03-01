@@ -8,6 +8,7 @@ import Deploy from './pages/Deploy.jsx';
 import Profile from './pages/Profile.jsx';
 import ProjectPreview from './pages/ProjectPreview.jsx';
 import Upload from './pages/Upload.jsx';
+import NewPage from './pages/NewPage.jsx';
 import { useAuthStore } from './store/auth.js';
 
 function PrivateRoute({ children }) {
@@ -87,6 +88,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Upload />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="deploying_page"
+            element={
+              <PrivateRoute>
+                <NewPage />
               </PrivateRoute>
             }
           />

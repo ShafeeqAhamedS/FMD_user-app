@@ -44,6 +44,9 @@ router.use(protect);
  *               status:
  *                 type: string
  *                 enum: [draft, published, archived]
+ *               deployedIP:
+ *                 type: string
+ *                 description: Deployed IP address
  *     responses:
  *       201:
  *         description: Project created successfully
@@ -200,6 +203,9 @@ router.get('/:projectId', getProject);
  *               status:
  *                 type: string
  *                 enum: [draft, published, archived, deployed, processing, failed]
+ *               deployedIP:
+ *                 type: string
+ *                 description: Deployed IP address
  *     responses:
  *       200:
  *         description: Project updated successfully

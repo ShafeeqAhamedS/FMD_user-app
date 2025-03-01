@@ -145,7 +145,7 @@ exports.updateProject = async (req, res) => {
     }
     
     // Update project
-    const { title, description, tags, status } = req.body;
+    const { title, description, tags, status, ec2PublicIP } = req.body;
     
     const updates = {};
     if (title) updates.title = title;
@@ -154,6 +154,11 @@ exports.updateProject = async (req, res) => {
     if (status) updates.status = status;
     
     const updatedProject = Project.findByIdAndUpdate(project._id, updates);
+    
+    if (ec2PublicIP) {
+      project.deployedIP = ec2PublicIP;
+      await Project.save(project);
+    }
     
     logger.info('Project updated successfully', { projectId });
     res.status(200).json({
