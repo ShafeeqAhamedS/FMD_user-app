@@ -1,38 +1,26 @@
 [
   {
-    "description": "1234567890",
+    "title": "Salary Prediction Model",
+    "description": "Predicts salary based on position & level",
     "user": "e44930f2-4a97-4a13-b630-9c384c237b51",
     "tags": [],
-    "status": "draft",
-    "_id": "15300288-9da3-4a2c-a5d6-a389c6c83a75",
-    "createdAt": "2025-03-01T16:29:13.937Z",
-    "zipFilePath": "/uploads/e44930f2-4a97-4a13-b630-9c384c237b51/15300288-9da3-4a2c-a5d6-a389c6c83a75/project_1740846623626.zip",
-    "updatedAt": "2025-03-01T16:30:23.635Z"
+    "status": "deployed",
+    "_id": "b26034aa-1f90-4358-9dd8-0e1227afac4f",
+    "createdAt": "2025-03-01T20:31:03.284Z",
+    "zipFilePath": "/uploads/e44930f2-4a97-4a13-b630-9c384c237b51/b26034aa-1f90-4358-9dd8-0e1227afac4f/project_1740861083307.zip",
+    "updatedAt": "2025-03-01T20:35:25.234Z",
+    "deployedIP": "52.90.251.180"
   },
   {
-    "description": "test 2",
-    "user": "e44930f2-4a97-4a13-b630-9c384c237b51",
-    "tags": [
-      "test"
-    ],
-    "status": "draft",
-    "_id": "80b16023-eaa9-42eb-9939-b14e6922a72b",
-    "createdAt": "2025-03-01T16:38:33.516Z",
-    "zipFilePath": "/uploads/e44930f2-4a97-4a13-b630-9c384c237b51/80b16023-eaa9-42eb-9939-b14e6922a72b/project_1740847129164.zip",
-    "updatedAt": "2025-03-01T18:08:05.150Z",
-    "title": "test 1",
-    "deployedIP": "44.204.0.30"
-  },
-  {
-    "title": "Test Final please",
-    "description": "Finale",
+    "title": "Simple score prediction",
+    "description": "Predict exam scores based on hours of study",
     "user": "e44930f2-4a97-4a13-b630-9c384c237b51",
     "tags": [],
-    "status": "draft",
-    "_id": "91555a87-f721-4381-adf5-f312f2edb3a6",
-    "createdAt": "2025-03-01T18:29:14.665Z",
-    "zipFilePath": "/uploads/e44930f2-4a97-4a13-b630-9c384c237b51/91555a87-f721-4381-adf5-f312f2edb3a6/project_1740853766289.zip",
-    "updatedAt": "2025-03-01T19:00:13.227Z",
-    "deployedIP": "44.201.175.192"
+    "status": "processing",
+    "_id": "d1fd09e9-0f60-42ee-a0ec-0369bb5b662e",
+    "createdAt": "2025-03-01T21:08:15.377Z",
+    "zipFilePath": "/uploads/e44930f2-4a97-4a13-b630-9c384c237b51/d1fd09e9-0f60-42ee-a0ec-0369bb5b662e/project_1740863317178.zip",
+    "updatedAt": "2025-03-01T21:13:19.227Z",
+    "deployedIP": "34.201.172.29"
   }
 ]

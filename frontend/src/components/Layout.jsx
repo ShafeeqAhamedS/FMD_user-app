@@ -2,6 +2,7 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth';
 import { Box, LogOut, Loader2, UserCircle } from 'lucide-react';
 import { useEffect } from 'react';
+import fmd from '../assets/fmd.png';
 
 export default function Layout() {
   const { user, logout, isLoading, isAuthenticated } = useAuthStore();
@@ -38,7 +39,7 @@ export default function Layout() {
             <div className="flex justify-between h-16">
               <div className="flex">
                 <Link to="/" className="flex items-center">
-                  <Box className="h-6 w-6 text-blue-600 dark:text-blue-500" />
+                  <img src={fmd} className="h-6 w-6 text-blue-600 dark:text-blue-500" alt="FMD Logo" />
                   <span className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">FMD</span>
                 </Link>
               </div>
@@ -84,7 +85,7 @@ export default function Layout() {
           <div className="flex justify-between h-16">
             <div className="flex">
               <Link to="/" className="flex items-center">
-                <Box className="h-6 w-6 text-blue-600 dark:text-blue-500" />
+                <img src={fmd} className="h-6 w-6 text-blue-600 dark:text-blue-500" alt="FMD Logo" />
                 <span className="ml-2 text-lg font-semibold text-gray-900 dark:text-white">FMD</span>
               </Link>
               <div className="ml-10 flex items-center space-x-4">

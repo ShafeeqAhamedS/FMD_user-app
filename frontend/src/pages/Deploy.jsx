@@ -90,7 +90,7 @@ export default function Deploy() {
           <form onSubmit={handleSubmit}>
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="block text-sm font-medium p- text-gray-700 dark:text-gray-300">
                   Project Name
                 </label>
                 <input
@@ -100,7 +100,7 @@ export default function Deploy() {
                   onChange={(e) =>
                     handleFormChange('name', e.target.value)
                   }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
+                  className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
                   placeholder="My Awesome ML Model"
                 />
               </div>
@@ -116,7 +116,7 @@ export default function Deploy() {
                     handleFormChange('description', e.target.value)
                   }
                   rows={3}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
+                  className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
                   placeholder="Brief description of your model and its purpose"
                 />
               </div>
@@ -131,7 +131,7 @@ export default function Deploy() {
                   onChange={(e) =>
                     handleFormChange('framework', e.target.value)
                   }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
+                  className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
                 >
                   <option value="">Select a framework</option>
                   {frameworks.map((framework) => (
@@ -152,7 +152,7 @@ export default function Deploy() {
                   onChange={(e) =>
                     handleFormChange('modelType', e.target.value)
                   }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
+                  className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm"
                 >
                   <option value="">Select a model type</option>
                   {modelTypes.map((type) => (

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import logger from '../utils/logger';
+import logger, { log } from '../utils/logger';
 import { CircularProgress } from '@mui/material';
 
 const NewPage = () => {
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(true);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [startTime] = useState(Date.now());
   const projectId = localStorage.getItem('projectId');
 
   const getDeploymentInstanceIP = async () => {
@@ -35,47 +37,13 @@ const NewPage = () => {
       return null;
     }
   };
-    
 
   useEffect(() => {
-    const triggerJenkinsJob = async () => {
+    const checkDeploymentStatus = async () => {
       try {
-        logger.info('Fetching Jenkins crumb');
-        const crumbResponse = await axios.get('http://localhost:8080/crumbIssuer/api/json', {
-          auth: {
-            username: 'admin',
-            password: '1196611b0d87af2b9d9df124ec2d755b21'
-          }
-        });
-        const crumb = crumbResponse.data.crumb;
-        const crumbField = crumbResponse.data.crumbRequestField;
-
-        logger.info('Fetched Jenkins crumb');
-
-        await axios.post(`http://localhost:8080/job/FMD/buildWithParameters?token=token&PROJECT_ID=${projectId}&AUTH_TOKEN=${localStorage.getItem('token')}`, {}, {
-            headers: {
-              [crumbField]: crumb
-            },
-            auth: {
-              username: 'admin',
-              password: '1196611b0d87af2b9d9df124ec2d755b21'
-            }
-          });
-
-        logger.info('Triggered Jenkins job');
-
-        // Add a delay to ensure we get the latest job
-        await new Promise(resolve => setTimeout(resolve, 10000));
-
-        const buildNumberResponse = await axios.get('http://localhost:8080/job/FMD/api/json', {
-          auth: {
-            username: 'admin',
-            password: '1196611b0d87af2b9d9df124ec2d755b21'
-          }
-        });
-        const buildNumber = buildNumberResponse.data.lastBuild.number;
-
-        logger.info(`Fetched build number: ${buildNumber}`);
+        // Get the latest build info
+        const buildNumber = localStorage.getItem('buildNumber');
+        logger.info(`Checking build number: ${buildNumber}`);
 
         const checkJobStatus = async () => {
           const jobStatusResponse = await axios.get(`http://localhost:8080/job/FMD/${buildNumber}/api/json`, {
@@ -84,28 +52,43 @@ const NewPage = () => {
               password: '1196611b0d87af2b9d9df124ec2d755b21'
             }
           });
+          logger.info('Job status:', jobStatusResponse.data.inProgress ? 'In progress' : 'Completed');
           if (!jobStatusResponse.data.inProgress) {
             clearInterval(intervalId);
             setLoading(false);
             if (jobStatusResponse.data.result === 'SUCCESS') {
               const ec2PublicIP = await getDeploymentInstanceIP();
               if (ec2PublicIP) {
-                await axios.put(`http://localhost:5000/api/v1/projects/${projectId}`, { ec2PublicIP }, {
+                await axios.put(`http://localhost:5000/api/v1/projects/${projectId}`, { 
+                  ec2PublicIP, 
+                  status: 'deployed'
+                }, {
                   headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                   }
                 });
                 setStatus(`Job completed successfully! Deployed at IP: ${ec2PublicIP}`);
               } else {
+                await axios.put(`http://localhost:5000/api/v1/projects/${projectId}`, { 
+                  status: 'failed'
+                }, {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                  }
+                });
                 setStatus('Job completed successfully, but failed to retrieve IP.');
               }
               logger.info('Job completed successfully');
-              
-              // Update project status to success
             } else {
+              await axios.put(`http://localhost:5000/api/v1/projects/${projectId}`, { 
+                status: 'failed'
+              }, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+              });
               setStatus('Job failed.');
               logger.error('Job failed');
-              // Update project status to failure
             }
           }
         };
@@ -118,30 +101,69 @@ const NewPage = () => {
           logger.error('Job timed out');
         }, 600000); // Timeout after 10 minutes
       } catch (error) {
-        logger.error('Error triggering Jenkins job:', error);
-        setStatus('Error triggering Jenkins job.');
+        logger.error('Error checking deployment status:', error);
+        setStatus('Error checking deployment status.');
         setLoading(false);
       }
     };
 
     if (projectId) {
-      triggerJenkinsJob();
+      const initializeDeployment = async () => {
+        try {
+          // Set initial status to processing
+          await axios.put(`http://localhost:5000/api/v1/projects/${projectId}`, { 
+            status: 'processing'
+          }, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          });
+          checkDeploymentStatus();
+        } catch (error) {
+          logger.error('Error initializing deployment:', error);
+          setStatus('Error starting deployment process.');
+          setLoading(false);
+        }
+      };
+      initializeDeployment();
     } else {
       setLoading(false);
-      setStatus('No project ID found. Cannot trigger job.');
+      setStatus('No project ID found. Cannot check deployment status.');
     }
   }, [projectId]);
 
+  useEffect(() => {
+    let timerInterval;
+    if (loading) {
+      timerInterval = setInterval(() => {
+        setElapsedTime(Math.floor((Date.now() - startTime) / 1000));
+      }, 1000);
+    }
+    return () => clearInterval(timerInterval);
+  }, [loading, startTime]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Job Status</h1>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Deployment Status</h1>
       {loading ? (
-        <div>
-          <p className="text-lg text-gray-700 dark:text-gray-300">Job is in progress...</p>
-          <CircularProgress />
+        <div className="space-y-4">
+          <p className="text-lg text-gray-700 dark:text-gray-300">Checking deployment status...</p>
+          <div className="flex items-center gap-4">
+            <CircularProgress />
+            <span className="text-lg font-mono">{formatTime(elapsedTime)}</span>
+          </div>
         </div>
       ) : (
-        <p className="text-lg text-gray-700 dark:text-gray-300">{status}</p>
+        <div className="space-y-2">
+          <p className="text-lg text-gray-700 dark:text-gray-300">{status}</p>
+          <p className="text-md text-gray-600 dark:text-gray-400">Total time: {formatTime(elapsedTime)}</p>
+        </div>
       )}
     </div>
   );
